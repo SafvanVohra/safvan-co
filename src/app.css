@@ -1,0 +1,10 @@
+.site-nav a,
+.site-footer a,
+.section-heading a,
+.insight-card a {
+  cursor: pointer;
+}
+
+.contact-form .button {
+  border: 0;
+}
