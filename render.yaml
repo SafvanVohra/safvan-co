@@ -2,9 +2,9 @@ services:
   - type: web
     name: vohra-fullstack
     env: node
-    rootDir: server
-    branch: master
-    buildCommand: npm install
+    rootDir: .
+    branch: main
+    buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV

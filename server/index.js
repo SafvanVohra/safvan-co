@@ -64,7 +64,7 @@ app.get("/api/health", (_request, response) => {
   response.json({
     ok: true,
     service: "vohra-ca-api",
-    mongodbConnected,
+    mongodbConnected: mongoConnected,
   });
 });
 
