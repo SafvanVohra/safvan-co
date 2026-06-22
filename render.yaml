@@ -3,7 +3,7 @@ services:
     name: vohra-fullstack
     env: node
     rootDir: server
-    branch: main
+    branch: master
     buildCommand: npm install
     startCommand: npm start
     envVars:
