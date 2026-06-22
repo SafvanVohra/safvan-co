@@ -3,18 +3,20 @@ services:
     name: vohra-ca-api
     env: node
     rootDir: server
+    branch: main
     buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: CORS_ORIGIN
+        value: http://localhost:5173
+      - key: MONGODB_URI
         sync: false
-      - key: SUPABASE_URL
-        value: https://nzkbgcmgkwzjkppoqriy.supabase.co
-      - key: SUPABASE_PUBLISHABLE_KEY
-        sync: false
-      - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false
+  - type: static_site
+    name: vohra-ca-frontend
+    env: static
+    rootDir: .
+    branch: main
+    buildCommand: npm install && npm run build
+    publishPath: dist
