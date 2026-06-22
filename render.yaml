@@ -1,22 +1,13 @@
 services:
   - type: web
-    name: vohra-ca-api
+    name: vohra-fullstack
     env: node
-    rootDir: server
+    rootDir: .
     branch: main
-    buildCommand: npm install
+    buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
-      - key: CORS_ORIGIN
-        value: http://localhost:5173
       - key: MONGODB_URI
         sync: false
-  - type: static_site
-    name: vohra-ca-frontend
-    env: static
-    rootDir: .
-    branch: main
-    buildCommand: npm install && npm run build
-    publishPath: dist
