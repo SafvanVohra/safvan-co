@@ -1,13 +1,17 @@
 import "dotenv/config";
+import path from "path";
+import { fileURLToPath } from "url";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import Enquiry from "./models/Enquiry.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 10000;
 
-const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,*")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -15,7 +19,7 @@ const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes("*") || allowedOrigins.includes(origin)) {
         callback(null, true);
         return;
       }
@@ -42,6 +46,8 @@ mongoose
   .catch((error) => {
     console.error("❌ MongoDB connection error:", error.message);
   });
+
+const frontendPath = path.resolve(__dirname, "..", "dist");
 
 const cleanText = (value) => (typeof value === "string" ? value.trim() : "");
 
@@ -186,12 +192,25 @@ app.delete("/api/enquiries/:id", async (request, response) => {
   }
 });
 
-// 404 handler
-app.use((_request, response) => {
-  response.status(404).json({
-    ok: false,
-    message: "Not found",
-  });
+// Serve frontend build files
+app.use(express.static(frontendPath));
+
+app.get("*", (request, response, next) => {
+  if (request.path.startsWith("/api/")) {
+    return next();
+  }
+  response.sendFile(path.join(frontendPath, "index.html"));
+});
+
+// 404 handler for API routes
+app.use((request, response) => {
+  if (request.path.startsWith("/api/")) {
+    return response.status(404).json({
+      ok: false,
+      message: "Not found",
+    });
+  }
+  response.status(404).sendFile(path.join(frontendPath, "index.html"));
 });
 
 app.listen(port, () => {
