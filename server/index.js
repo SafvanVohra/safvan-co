@@ -35,10 +35,7 @@ if (!mongodbUri) {
 }
 
 mongoose
-  .connect(mongodbUri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(mongodbUri)
   .then(() => {
     console.log("✅ Connected to MongoDB");
   })
