@@ -1,4 +1,5 @@
 import "dotenv/config";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
@@ -19,7 +20,13 @@ const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173,*")
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes("*") || allowedOrigins.includes(origin)) {
+      const isAllowed =
+        !origin ||
+        allowedOrigins.includes("*") ||
+        allowedOrigins.includes(origin) ||
+        (typeof origin === "string" && origin.endsWith(".vercel.app"));
+
+      if (isAllowed) {
         callback(null, true);
         return;
       }
@@ -192,15 +199,28 @@ app.delete("/api/enquiries/:id", async (request, response) => {
   }
 });
 
-// Serve frontend build files
-app.use(express.static(frontendPath));
+// Serve frontend build files conditionally if they exist
+const hasFrontendBuild = fs.existsSync(path.join(frontendPath, "index.html"));
 
-app.get("*", (request, response, next) => {
-  if (request.path.startsWith("/api/")) {
-    return next();
-  }
-  response.sendFile(path.join(frontendPath, "index.html"));
-});
+if (hasFrontendBuild) {
+  app.use(express.static(frontendPath));
+
+  app.get("*", (request, response, next) => {
+    if (request.path.startsWith("/api/")) {
+      return next();
+    }
+    response.sendFile(path.join(frontendPath, "index.html"));
+  });
+} else {
+  // Fallback for root route in API-only mode
+  app.get("/", (_request, response) => {
+    response.json({
+      ok: true,
+      service: "vohra-ca-api",
+      message: "Vohra CA API is running. Frontend is deployed separately (e.g. Vercel).",
+    });
+  });
+}
 
 // 404 handler for API routes
 app.use((request, response) => {
@@ -210,7 +230,15 @@ app.use((request, response) => {
       message: "Not found",
     });
   }
-  response.status(404).sendFile(path.join(frontendPath, "index.html"));
+  
+  if (hasFrontendBuild) {
+    response.status(404).sendFile(path.join(frontendPath, "index.html"));
+  } else {
+    response.status(404).json({
+      ok: false,
+      message: "Resource not found",
+    });
+  }
 });
 
 app.listen(port, () => {
