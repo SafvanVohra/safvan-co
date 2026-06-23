@@ -68,5 +68,7 @@ Render backend:
 - Start command: `npm start`
 - Environment variables:
   - `MONGODB_URI`
-  - `CORS_ORIGIN=https://your-vercel-domain.vercel.app`
+  - `CORS_ORIGIN=https://safvan-co.vercel.app`
   - `NODE_ENV=production`
+
+Live frontend: `https://safvan-co.vercel.app`

@@ -32,7 +32,7 @@ Add these environment variables:
 NODE_ENV=production
 PORT=10000
 MONGODB_URI=your_mongodb_atlas_connection_string
-CORS_ORIGIN=https://your-vercel-domain.vercel.app
+CORS_ORIGIN=https://safvan-co.vercel.app
 ```
 
 After deploy, check:
@@ -64,3 +64,9 @@ Redeploy Vercel after adding the variable.
 ## 4. Test Contact Form
 
 Open the Vercel website and submit the contact form. It should save into MongoDB through the Render backend.
+
+Live frontend:
+
+```text
+https://safvan-co.vercel.app
+```

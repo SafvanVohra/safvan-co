@@ -9,3 +9,5 @@ vite.log
 vite.err.log
 server/*.log
 .DS_Store
+
+.vercel
