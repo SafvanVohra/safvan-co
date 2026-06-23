@@ -41,17 +41,17 @@ app.use(express.json({ limit: "25kb" }));
 const mongodbUri = process.env.MONGODB_URI;
 
 if (!mongodbUri) {
-  console.error("❌ MONGODB_URI environment variable is not set.");
+  console.error("MONGODB_URI environment variable is not set.");
   process.exit(1);
 }
 
 mongoose
   .connect(mongodbUri)
   .then(() => {
-    console.log("✅ Connected to MongoDB");
+    console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.error("❌ MongoDB connection error:", error.message);
+    console.error("MongoDB connection error:", error.message);
   });
 
 const frontendPath = path.resolve(__dirname, "..", "dist");

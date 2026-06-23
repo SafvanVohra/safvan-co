@@ -1,10 +1,10 @@
 # Vohra & Co. Chartered Accountants
 
-Full-stack website for a CA firm:
+MERN website for a CA firm:
 
 - Frontend: React + Vite, deployable on Vercel
-- Backend: Express API, deployable on Render
-- Database: Supabase `contact_enquiries` table
+- Backend: Node.js + Express, deployable on Render
+- Database: MongoDB Atlas via Mongoose
 
 ## Local Setup
 
@@ -36,20 +36,21 @@ Run the frontend in another terminal:
 npm run dev
 ```
 
-## Supabase
+Frontend URL: `http://localhost:5173`
 
-Run `supabase-schema.sql` in the Supabase SQL Editor once. The backend inserts enquiries into `public.contact_enquiries`.
+Backend URL: `http://localhost:10000`
 
-For production, set these Render environment variables:
+## Database
+
+The backend stores enquiries in MongoDB via Mongoose.
+
+Create a MongoDB Atlas connection string and set this environment variable on Render and in `server/.env`:
 
 ```bash
-SUPABASE_URL=https://nzkbgcmgkwzjkppoqriy.supabase.co
-SUPABASE_PUBLISHABLE_KEY=your_publishable_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-CORS_ORIGIN=https://your-vercel-domain.vercel.app
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/vohra_ca?retryWrites=true&w=majority
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` is recommended for the Render backend. Do not add it to Vercel or frontend code.
+The contact form posts to `POST /api/enquiries`.
 
 ## Deploy
 
@@ -65,3 +66,7 @@ Render backend:
 - Root directory: `server`
 - Build command: `npm install`
 - Start command: `npm start`
+- Environment variables:
+  - `MONGODB_URI`
+  - `CORS_ORIGIN=https://your-vercel-domain.vercel.app`
+  - `NODE_ENV=production`

@@ -1,4 +1,4 @@
-# MongoDB Atlas Setup Guide
+# MongoDB Atlas Setup Guide for Vohra & Co.
 
 Follow these steps to set up your free MongoDB database:
 
@@ -15,7 +15,7 @@ Follow these steps to set up your free MongoDB database:
 5. Wait for the cluster to be created (2-3 minutes)
 
 ## Step 3: Set Up Database Access
-1. In the left sidebar, go to **Security → Database Access**
+1. In the left sidebar, go to **Security -> Database Access**
 2. Click **"Add New Database User"**
 3. Choose **Username/Password** authentication
 4. Enter:
@@ -24,7 +24,7 @@ Follow these steps to set up your free MongoDB database:
    - Click **"Add User"**
 
 ## Step 4: Configure Network Access
-1. Go to **Security → Network Access**
+1. Go to **Security -> Network Access**
 2. Click **"Add IP Address"**
 3. Click **"Allow Access from Anywhere"** (or add your IP)
 4. Click **"Confirm"**
@@ -51,4 +51,4 @@ Once you've added the MongoDB URI to your `.env` file, restart your backend serv
 
 ---
 
-**Questions?** MongoDB Atlas is free and very reliable. The setup takes ~5 minutes!
+After setup, add the same `MONGODB_URI` value in Render environment variables.

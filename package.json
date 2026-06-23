@@ -7,9 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "npm --prefix server run dev",
-    "start": "npm --prefix server run start",
-    "postinstall": "npm --prefix server install"
+    "server": "npm --prefix server run dev"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",
